@@ -180,7 +180,7 @@ if (DEBUG) {
       this._super(...arguments);
 
       if (Ember.testing) {
-        const shouldWaitOnTimers = this.hasActiveQueue() || this.hasPendingTimers();
+        const shouldWaitOnTimers = !this.hasActiveQueue() && !this.hasPendingTimers();
         this._waiter = () => shouldWaitOnTimers;
         Ember.Test.registerWaiter(this._waiter);
       }
@@ -201,7 +201,7 @@ if (DEBUG) {
       const hasActiveQueue = lastQueue && lastQueue.isActive;
       const hasTasks = lastQueue && lastQueue.tasks.length > 0;
 
-      return hasActiveQueue || hasTasks;
+      return hasActiveQueue && hasTasks;
     },
 
     /**
